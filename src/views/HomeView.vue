@@ -1,4 +1,32 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import useUserStore from "@/stores/user.js";
+
+const userStore = useUserStore();
+const email = ref();
+const password = ref();
+
+function login() {
+  axios
+    .post("http://127.0.0.1:8000/api/auth/login", {
+      email: email.value,
+      password: password.value,
+    })
+    .then(function (response) {
+      userStore.addUser({
+        name: response.data.name,
+        email: response.data.email,
+        role: response.data.role_id,
+        token: response.data.token,
+      });
+      console.log(response.data.name);
+    });
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+}
+</script>
 
 <template>
   <main>
@@ -13,12 +41,13 @@
           </p>
         </div>
         <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <form class="card-body">
+          <form class="card-body" @submit.prevent="login()">
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Email</span>
               </label>
               <input
+                v-model="email"
                 type="email"
                 placeholder="email"
                 class="input input-bordered"
@@ -30,19 +59,15 @@
                 <span class="label-text">Password</span>
               </label>
               <input
+                v-model="password"
                 type="password"
                 placeholder="password"
                 class="input input-bordered"
                 required
               />
-              <label class="label">
-                <a href="#" class="label-text-alt link link-hover"
-                  >Forgot password?</a
-                >
-              </label>
             </div>
             <div class="form-control mt-6">
-              <button class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary">Login</button>
             </div>
           </form>
         </div>

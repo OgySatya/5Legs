@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
-  linkActiveClass: "text-primary",
-  linkExactActiveClass: "text-indigo-700",
+  linkExactActiveClass:
+    "bg-neutral text-neutral-content px-3 py-1.5 rounded-box",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

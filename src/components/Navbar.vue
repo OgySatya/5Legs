@@ -1,6 +1,12 @@
+<script setup>
+import useUserStore from "@/stores/user.js";
+
+const userStore = useUserStore();
+console.log(userStore.users);
+</script>
 <template>
   <nav>
-    <div class="navbar bg-base-300">
+    <div class="navbar bg-base-300 px-6">
       <div class="navbar-start">
         <div class="dropdown">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -34,27 +40,25 @@
             <li><a>Order</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">5Legs</a>
+        <label class="swap">
+          <input type="checkbox" value="aqua" class="theme-controller" />
+          <div class="swap-on text-4xl font-bold">Kaki5</div>
+          <div class="swap-off text-4xl font-bold">5Legs</div>
+        </label>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-          <li><RouterLink to="/">Home</RouterLink></li>
-          <li>
-            <details>
-              <summary>User</summary>
-              <ul class="p-2">
-                <li><RouterLink to="/auth/login">Login</RouterLink></li>
-                <li><RouterLink to="/auth/Register">Register</RouterLink></li>
-              </ul>
-            </details>
+        <ul class="flex px-1 text-2xl gap-4">
+          <li class="">
+            <RouterLink to="/">Home</RouterLink>
           </li>
+          <li><RouterLink to="/auth/Register">Register</RouterLink></li>
           <li><a>Order</a></li>
         </ul>
       </div>
-      <div class="navbar-end">
+      <div class="navbar-end space-x-2">
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" />
+          <input type="checkbox" class="theme-controller" value="dark" />
 
           <!-- sun icon -->
           <svg
@@ -78,6 +82,19 @@
             />
           </svg>
         </label>
+        <div v-if="userStore.users.name" class="dropdown dropdown-hover">
+          <div tabindex="0" role="button" class="btn m-1 w-fit uppercase">
+            {{ userStore.users.name }}
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu rounded-box z-[1] shadow"
+          >
+            <li class="">
+              <button @click="userStore.logout()">Logout</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
