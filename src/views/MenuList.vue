@@ -3,9 +3,11 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
 import addMenu from "./modal/AddMenu.vue";
+import editMenu from "./modal/EditMenu.vue";
 
 const userStore = useUserStore();
 const itemList = ref([]);
+const menuEdit = ref({});
 onMounted(() => {
   axios
     .get("http://127.0.0.1:8000/api/item", {
@@ -14,7 +16,6 @@ onMounted(() => {
       },
     })
     .then(function (response) {
-      console.log(response);
       itemList.value = response.data;
     })
     .catch(function (error) {
@@ -25,6 +26,40 @@ const showModal = ref(false);
 function add() {
   showModal.value = !showModal.value;
 }
+function removeItem(id) {
+  axios
+    .delete(`http://127.0.0.1:8000/api/item/${id}`, {
+      headers: {
+        Authorization: `Bearer ${userStore.users.token}`,
+      },
+    })
+    .then(function (response) {
+      console.log(response);
+      location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+const editModal = ref(false);
+function edit() {
+  editModal.value = !editModal.value;
+}
+function editItem(id) {
+  axios
+    .get(`http://127.0.0.1:8000/api/item/${id}/edit`, {
+      headers: {
+        Authorization: `Bearer ${userStore.users.token}`,
+      },
+    })
+    .then(function (response) {
+      menuEdit.value = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  edit();
+}
 </script>
 <template>
   <div>
@@ -34,11 +69,18 @@ function add() {
       </Transition>
     </Teleport>
   </div>
+  <div>
+    <Teleport to="body">
+      <Transition>
+        <editMenu v-if="editModal" :data="menuEdit" @back="() => edit()" />
+      </Transition>
+    </Teleport>
+  </div>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-5">
     <div
       v-for="(item, index) in itemList"
       :key="index"
-      class="card card-compact bg-base-100 w-48 shadow-xl"
+      class="card card-compact bg-base-100 w-60 shadow-xl"
     >
       <figure>
         <img
@@ -49,7 +91,20 @@ function add() {
       <div class="card-body">
         <h2 class="card-title">{{ item.name }}</h2>
         <p>Rp.{{ item.price }}</p>
-        <button class="btn btn-xs btn-primary">Order Now</button>
+        <div class="join mx-auto">
+          <button
+            @click="editItem(item.id)"
+            class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100"
+          >
+            Edit Menu
+          </button>
+          <button
+            @click="removeItem(item.id)"
+            class="btn btn-error join-item btn-sm bg-opacity-70 text-base-100"
+          >
+            Delete Menu
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +113,7 @@ function add() {
     <div class="fixed bottom-0 right-0 p-10">
       <button
         @click="add()"
-        class="btn btn-secondary text-xl text-secondary-content"
+        class="btn btn-secondary text-xl text-base-100 bg-opacity-70"
       >
         Tambah Menu
       </button>

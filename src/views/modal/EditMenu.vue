@@ -1,13 +1,25 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
 
 const menuName = ref();
-const price = ref(0);
+const price = ref();
 const file = ref();
 const userStore = useUserStore();
-const props = defineProps({});
+const props = defineProps({
+  data: Object,
+});
+function oldData() {
+  menuName.value = props.data.name;
+  price.value - props.data.price;
+}
+onMounted(() => {
+  setTimeout(() => {
+    oldData();
+    console.log(props.data.price);
+  }, 500);
+});
 const emit = defineEmits(["back"]);
 
 function onFileChange(event) {
@@ -68,7 +80,7 @@ function addNew() {
       <div class="px-10 pb-10">
         <div class="bg-base-100 px-5 rounded-btn bg-opacity-80 mx-auto">
           <form class="card-body" @submit.prevent="addNew()">
-            <h1 class="text-accent font-bold text-4xl">New Menu</h1>
+            <h1 class="text-accent font-bold text-4xl">Edit Menu</h1>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Menu Name</span>
@@ -76,7 +88,6 @@ function addNew() {
               <input
                 v-model="menuName"
                 type="text"
-                placeholder="name"
                 class="input input-bordered"
                 required
               />
