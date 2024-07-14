@@ -61,9 +61,9 @@ function logout() {
             <RouterLink to="/menu">Menu</RouterLink>
           </li>
           <li>
-            <details>
+            <details class="dropdown">
               <summary>Order</summary>
-              <ul class="p-2">
+              <ul tabindex="0" class="menu menu-lg dropdown-content bg-base-200 rounded-btn z-[1] mt-3 p-2">
                 <li>
                   <RouterLink to="/costomer-order">Costomer</RouterLink>
                 </li>
