@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   linkExactActiveClass:
-    "bg-neutral text-neutral-content px-3 py-1 rounded-md",
+    "text-success font-bold",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -25,6 +25,11 @@ const router = createRouter({
       path: "/menu",
       name: "menu",
       component: () => import("../views/MenuList.vue"),
+    },
+    {
+      path: "/costomer-order",
+      name: "makeorder",
+      component: () => import("../views/order/MakeOrder.vue"),
     },
   ],
 });
