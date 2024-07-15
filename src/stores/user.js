@@ -11,7 +11,7 @@ const useUserStore = defineStore("user", {
       this.users = user;
     },
     logout() {
-      this.users = null;
+      this.users = {};
     },
   },
 });
