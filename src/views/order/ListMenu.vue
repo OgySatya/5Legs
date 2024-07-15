@@ -24,22 +24,32 @@ onMounted(() => {
 
 const userStore = useUserStore();
 
-function addItem(product) {
-  orderStore.add(product);
+function addItem(item) {
+  orderStore.add(item);
 }
 </script>
 <template>
   <section class="">
     <div class="grid grid-cols-3 gap-6 px-5">
-      <div v-for="(item, index) in itemList" :key="index" class="card card-compact bg-base-100 w-60 shadow-xl">
+      <div
+        v-for="(item, index) in itemList"
+        :key="index"
+        class="card card-compact bg-base-100 w-60 shadow-xl"
+      >
         <figure>
-          <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" />
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+            alt="Shoes"
+          />
         </figure>
         <div class="card-body">
           <h2 class="card-title">{{ item.name }}</h2>
           <p>Rp.{{ item.price }}</p>
           <div class="join mx-auto">
-            <button @click="addItem(item, index)" class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100">
+            <button
+              @click="addItem(item)"
+              class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100"
+            >
               Add Item
             </button>
           </div>

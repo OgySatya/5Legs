@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
-  linkExactActiveClass:
-    "text-success font-bold",
+  linkExactActiveClass: "text-success font-bold",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -30,6 +29,11 @@ const router = createRouter({
       path: "/costomer-order",
       name: "makeorder",
       component: () => import("../views/order/MakeOrder.vue"),
+    },
+    {
+      path: "/order-list",
+      name: "order-list",
+      component: () => import("../views/order/OrderList.vue"),
     },
   ],
 });

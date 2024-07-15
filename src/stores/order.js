@@ -53,7 +53,7 @@ const useOrderStore = defineStore("order", {
       const userStore = useUserStore();
       let itemsId = [];
       this.products.forEach((element) => {
-        itemsId.push(element.id);
+        itemsId.push({ id: element.id, quantity: element.quantity });
       });
       const order = {
         costomer_name: name,
@@ -72,7 +72,7 @@ const useOrderStore = defineStore("order", {
         .catch(function (error) {
           console.log(error);
         });
-        this.products = null
+      this.products = [];
     },
   },
 });
