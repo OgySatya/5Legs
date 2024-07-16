@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
-  linkExactActiveClass: "text-success font-bold",
+  linkExactActiveClass: " font-bold",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -34,6 +34,16 @@ const router = createRouter({
       path: "/order-list",
       name: "order-list",
       component: () => import("../views/order/OrderList.vue"),
+    },
+    {
+      path: "/kitchen",
+      name: "kitchen",
+      component: () => import("../views/order/Kitchen.vue"),
+    },
+    {
+      path: "/cashier",
+      name: "cashier",
+      component: () => import("../views/order/Cashier.vue"),
     },
   ],
 });

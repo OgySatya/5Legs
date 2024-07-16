@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
-import detailed from "../modal/OrderDetail.vue";
+import detailed from "../modal/KitchenDetail.vue";
 
 const userStore = useUserStore();
 

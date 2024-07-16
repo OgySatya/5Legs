@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
 
@@ -8,27 +9,35 @@ const props = defineProps({
   data: Object,
 });
 const emit = defineEmits(["back"]);
-
-function removeOrder(id) {
-  axios
-    .delete(`http://127.0.0.1:8000/api/order/${id}`, {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      console.log(response);
-      location.reload();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+const check = ref([]);
+const warning = ref(false);
+function readyOrder(id) {
+  if (check.value.length == props.data.order_detail.length) {
+    axios
+      .get(`http://127.0.0.1:8000/api/order/${id}/kitchen`, {
+        headers: {
+          Authorization: `Bearer ${userStore.users.token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    warning.value = false;
+  } else {
+    warning.value = true;
+  }
 }
 </script>
 <template>
   <div class="inset-0 fixed left-0 top-0 bg-base-300 bg-opacity-70">
-    <div class="card bg-base-200 mx-auto w-max mt-28 bg-opacity-90">
-      <div class="flex justify-end p-3">
+    <div
+      class="relative card bg-base-200 mx-auto w-max mt-28 bg-opacity-90 p-3"
+    >
+      <div class="flex justify-end">
         <button
           @click.prevent="$emit('back')"
           class="bg-base-100 rounded-btn bg-opacity-80 p-1 hover:bg-base-300"
@@ -49,7 +58,13 @@ function removeOrder(id) {
           </svg>
         </button>
       </div>
-      <div class="px-5 pb-5">
+      <h1
+        v-if="warning"
+        class="inset-x-0 top-0 absolute py-3 px-6 text-lg text-warning font-bold w-fit"
+      >
+        Check ulang Boss!!
+      </h1>
+      <div class="px-5 pb-5 mt-3">
         <h1
           class="text-center font-bold text-2xl border-2 border-neutral rounded-btn"
         >
@@ -85,13 +100,16 @@ function removeOrder(id) {
                 {{ index + 1 }}. {{ menu.item.name }}
                 <span class="lowercase">x {{ menu.quantity }}</span>
               </td>
-              <td>@ Rp.{{ menu.item.price }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-warning checkbox-sm"
+                  :value="index"
+                  v-model="check"
+                />
+              </td>
             </tr>
 
-            <tr>
-              <td>Total Price</td>
-              <td>: Rp.{{ data.total_price }}</td>
-            </tr>
             <tr>
               <td>Status</td>
               <td>
@@ -107,17 +125,13 @@ function removeOrder(id) {
                 >
               </td>
             </tr>
-            <tr>
-              <td>Waiter Name</td>
-              <td>: {{ data.user.name }}</td>
-            </tr>
           </tbody>
         </table>
         <button
-          @click="removeOrder(data.id)"
-          class="btn btn-outline btn-error flex mx-auto px-8 text-2xl"
+          @click="readyOrder(data.id)"
+          class="btn btn-outline btn-success flex mx-auto px-8 text-2xl"
         >
-          Remove
+          Ready
         </button>
       </div>
     </div>

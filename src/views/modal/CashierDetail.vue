@@ -9,9 +9,9 @@ const props = defineProps({
 });
 const emit = defineEmits(["back"]);
 
-function removeOrder(id) {
+function bayarOrder(id) {
   axios
-    .delete(`http://127.0.0.1:8000/api/order/${id}`, {
+    .get(`http://127.0.0.1:8000/api/order/${id}/payment`, {
       headers: {
         Authorization: `Bearer ${userStore.users.token}`,
       },
@@ -107,17 +107,13 @@ function removeOrder(id) {
                 >
               </td>
             </tr>
-            <tr>
-              <td>Waiter Name</td>
-              <td>: {{ data.user.name }}</td>
-            </tr>
           </tbody>
         </table>
         <button
-          @click="removeOrder(data.id)"
-          class="btn btn-outline btn-error flex mx-auto px-8 text-2xl"
+          @click="bayarOrder(data.id)"
+          class="btn btn-outline btn-info flex mx-auto px-8 text-2xl"
         >
-          Remove
+          bayar
         </button>
       </div>
     </div>
