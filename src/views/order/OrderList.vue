@@ -17,7 +17,15 @@ onMounted(() => {
       },
     })
     .then(function (response) {
-      orderList.value = response.data;
+      orderList.value = response.data.sort((a, b) => {
+        if (a.status < b.status) {
+          return -1;
+        }
+        if (a.status > b.status) {
+          return 1;
+        }
+        return 0;
+      });
     })
     .catch(function (error) {
       console.log(error);

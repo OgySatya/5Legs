@@ -24,6 +24,21 @@ function removeOrder(id) {
       console.log(error);
     });
 }
+function serveOrder(id) {
+  axios
+    .get(`http://127.0.0.1:8000/api/order/${id}/waiter`, {
+      headers: {
+        Authorization: `Bearer ${userStore.users.token}`,
+      },
+    })
+    .then(function (response) {
+      console.log(response);
+      location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 </script>
 <template>
   <div class="inset-0 fixed left-0 top-0 bg-base-300 bg-opacity-70">
@@ -113,12 +128,20 @@ function removeOrder(id) {
             </tr>
           </tbody>
         </table>
-        <button
-          @click="removeOrder(data.id)"
-          class="btn btn-outline btn-error flex mx-auto px-8 text-2xl"
-        >
-          Remove
-        </button>
+        <div class="flex">
+          <button
+            @click="removeOrder(data.id)"
+            class="btn btn-outline btn-error mx-auto px-8 text-2xl"
+          >
+            Remove
+          </button>
+          <button
+            @click="serveOrder(data.id)"
+            class="btn btn-outline mx-auto px-8 text-2xl"
+          >
+            Serve
+          </button>
+        </div>
       </div>
     </div>
   </div>

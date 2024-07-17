@@ -11,14 +11,21 @@ const props = defineProps({
 const emit = defineEmits(["back"]);
 const check = ref([]);
 const warning = ref(false);
-function readyOrder(id) {
+
+function readyOrder(id, chef) {
   if (check.value.length == props.data.order_detail.length) {
     axios
-      .get(`http://127.0.0.1:8000/api/order/${id}/kitchen`, {
-        headers: {
-          Authorization: `Bearer ${userStore.users.token}`,
+      .post(
+        `http://127.0.0.1:8000/api/order/${id}/kitchen`,
+        {
+          id: chef,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${userStore.users.token}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
         location.reload();
@@ -128,7 +135,7 @@ function readyOrder(id) {
           </tbody>
         </table>
         <button
-          @click="readyOrder(data.id)"
+          @click="readyOrder(data.id, userStore.users.id)"
           class="btn btn-outline btn-success flex mx-auto px-8 text-2xl"
         >
           Ready

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
 import detailed from "../modal/KitchenDetail.vue";
@@ -8,6 +8,9 @@ const userStore = useUserStore();
 
 const orderList = ref([]);
 const orderDetail = ref({});
+const filteredOrder = computed(() => {
+  return orderList.value.filter((kitchen) => kitchen.status === "On Prosess");
+});
 
 onMounted(() => {
   axios
@@ -50,7 +53,7 @@ function toggle() {
   </div>
   <section class="grid grid-cols-4 gap-5 m-10">
     <div
-      v-for="(order, index) in orderList"
+      v-for="(order, index) in filteredOrder"
       :key="index"
       class="card bg-base-200 border-4 border-primary w-96 p-5"
     >

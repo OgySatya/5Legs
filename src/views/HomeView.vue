@@ -15,6 +15,7 @@ function login() {
     })
     .then(function (response) {
       userStore.addUser({
+        id: response.data.id,
         name: response.data.name,
         email: response.data.email,
         role: response.data.role_id,
@@ -42,13 +43,25 @@ function login() {
               <label class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input v-model="email" type="email" placeholder="email" class="input input-bordered" required />
+              <input
+                v-model="email"
+                type="email"
+                placeholder="email"
+                class="input input-bordered"
+                required
+              />
             </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Password</span>
               </label>
-              <input v-model="password" type="password" placeholder="password" class="input input-bordered" required />
+              <input
+                v-model="password"
+                type="password"
+                placeholder="password"
+                class="input input-bordered"
+                required
+              />
             </div>
             <div class="form-control mt-6">
               <button type="submit" class="btn btn-primary">Login</button>
