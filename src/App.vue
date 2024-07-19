@@ -1,9 +1,12 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import useThemeStore from "./stores/theme";
 import Navbar from "./components/Navbar.vue";
+
+const theme = useThemeStore();
+console.log(theme.theme);
 </script>
 
-<template class="theme-controller">
+<template data-theme="retro">
   <Navbar />
   <RouterView />
 </template>

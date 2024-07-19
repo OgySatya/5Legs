@@ -1,56 +1,87 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import useUserStore from "@/stores/user.js";
 
 const router = createRouter({
   linkExactActiveClass: " font-bold",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: "/login",
       name: "home",
       component: HomeView,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
     },
     {
       path: "/auth/register",
       name: "register",
       component: () => import("../views/auth/Register.vue"),
+      meta: { requiresAuth: true, roles: [1] },
     },
     {
       path: "/menu",
       name: "menu",
       component: () => import("../views/MenuList.vue"),
+      meta: { requiresAuth: true, roles: [1] },
     },
     {
       path: "/costomer-order",
       name: "makeorder",
       component: () => import("../views/order/MakeOrder.vue"),
+      meta: { requiresAuth: true, roles: [2] },
     },
     {
       path: "/order-list",
       name: "order-list",
       component: () => import("../views/order/OrderList.vue"),
+      meta: { requiresAuth: true, roles: [2, 1] },
     },
     {
       path: "/kitchen",
       name: "kitchen",
       component: () => import("../views/order/Kitchen.vue"),
+      meta: { requiresAuth: true, roles: [3] },
     },
     {
       path: "/cashier",
       name: "cashier",
       component: () => import("../views/order/Cashier.vue"),
+      meta: { requiresAuth: true, roles: [4] },
     },
     {
-      path: "/invoice",
+      path: "/invoice/:id",
       name: "invoice",
       component: () => import("../views/invoice.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("../views/Dashboard.vue"),
+      meta: { requiresAuth: true, roles: [1] },
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("../views/About.vue"),
     },
   ],
+});
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!userStore.isLoggedIn) {
+      next("/login");
+    } else {
+      const routeRoles = to.meta.roles;
+      if (routeRoles.includes(userStore.users.role)) {
+        next();
+      } else {
+        next("/about");
+      }
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

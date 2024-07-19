@@ -2,8 +2,10 @@
 import { ref } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
+const router = useRouter();
 const email = ref();
 const password = ref();
 
@@ -21,6 +23,15 @@ function login() {
         role: response.data.role_id,
         token: response.data.token,
       });
+      if (response.data.role_id == 1) {
+        router.push("/dashboard");
+      } else if (response.data.role_id == 2) {
+        router.push("/costomer-order");
+      } else if (response.data.role_id == 3) {
+        router.push("/kitchen");
+      } else if (response.data.role_id == 4) {
+        router.push("/cashier");
+      }
     });
 }
 </script>

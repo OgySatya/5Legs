@@ -92,5 +92,14 @@ function toggle() {
         </div>
       </div>
     </div>
+    <div class="relative">
+      <div class="fixed bottom-0 right-0 p-10">
+        <RouterLink
+          class="btn btn-lg btn-info text-base-100"
+          to="/costomer-order"
+          >Back</RouterLink
+        >
+      </div>
+    </div>
   </section>
 </template>

@@ -181,4 +181,9 @@ function removeProduct(productId) {
       <ListMenu />
     </section>
   </div>
+  <div class="relative">
+    <div class="fixed bottom-0 right-0 p-10">
+      <RouterLink class="btn btn-lg" to="/order-list">Order List</RouterLink>
+    </div>
+  </div>
 </template>

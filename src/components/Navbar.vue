@@ -1,9 +1,19 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import useUserStore from "@/stores/user.js";
 import axios from "axios";
+import { useRouter } from "vue-router";
+import useThemeStore from "@/stores/theme.js";
+
+const theme = useThemeStore();
+const newTheme = ref("");
+function ThemeQ() {
+  theme.change("retro");
+}
 
 const userStore = useUserStore();
+const router = useRouter();
+
 const userName = computed(() => userStore.users.name);
 function logout() {
   axios.get("http://127.0.0.1:8000/api/auth/logout", {
@@ -13,6 +23,7 @@ function logout() {
   });
 
   userStore.logout();
+  router.push("/login");
 }
 </script>
 <template>
@@ -40,15 +51,35 @@ function logout() {
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li><a>Home</a></li>
+            <li class="">
+              <RouterLink to="/dashboard">Dashborad</RouterLink>
+            </li>
+            <li class="">
+              <RouterLink to="/login">Home</RouterLink>
+            </li>
             <li>
-              <a>User</a>
-              <ul class="p-2">
-                <li><a>New User</a></li>
-                <li><a>Login</a></li>
+              <RouterLink to="/auth/Register">Register</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/menu">Menu</RouterLink>
+            </li>
+            <li class="dropdown">
+              <div tabindex="0" role="button" class="">Order</div>
+              <ul tabindex="0" class="p-2">
+                <li>
+                  <RouterLink to="/costomer-order">Costomer</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/order-list">Order List</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/kitchen">Kitchen</RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/cashier">Cashier</RouterLink>
+                </li>
               </ul>
             </li>
-            <li><a>Order</a></li>
           </ul>
         </div>
         <label class="swap">
@@ -56,11 +87,28 @@ function logout() {
           <div class="swap-on text-4xl font-bold">Kaki5</div>
           <div class="swap-off text-4xl font-bold">5Legs</div>
         </label>
+        <!-- <select
+          v-model="newTheme"
+          @change="themeQ()"
+          class="select select-bordered select-sm w-full max-w-xs"
+        >
+          <option disabled selected>Small</option>
+          <option value="retro">Small Apple</option>
+          <option>Small Orange</option>
+          <option>Small Tomato</option>
+        </select> -->
+        <button @click="ThemeQ()">x</button>
       </div>
-      <div class="navbar-center hidden lg:flex">
+      <div
+        v-if="userStore.users.role == 1"
+        class="navbar-center hidden lg:flex"
+      >
         <ul class="menu menu-horizontal px-1 text-2xl">
           <li class="">
-            <RouterLink to="/">Home</RouterLink>
+            <RouterLink to="/dashboard">Dashborad</RouterLink>
+          </li>
+          <li class="">
+            <RouterLink to="/login">Home</RouterLink>
           </li>
           <li>
             <RouterLink to="/auth/Register">Register</RouterLink>

@@ -1,3 +1,26 @@
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import useUserStore from "@/stores/user.js";
+
+const userStore = useUserStore();
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const order = ref();
+
+onMounted(() => {
+  axios
+    .get(`http://127.0.0.1:8000/api/order/${route.params.id}`, {
+      headers: {
+        Authorization: `Bearer ${userStore.users.token}`,
+      },
+    })
+    .then(function (response) {
+      order.value = response.data;
+    });
+});
+</script>
 <template>
   <div
     class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6"
@@ -27,7 +50,7 @@
       <div>
         <p class="font-bold text-gray-800">Bill to :</p>
         <p class="text-gray-500">
-          Laravel LLC.
+          {{ order.costomer_name }}
           <br />
           102, San-Fransico, CA, USA
         </p>
@@ -37,10 +60,11 @@
       <div class="text-right">
         <p class="">
           Invoice number:
-          <span class="text-gray-500">INV-2023786123</span>
+          <span class="text-gray-500">{{ order.id }}</span>
         </p>
         <p>
-          Invoice date: <span class="text-gray-500">03/07/2023</span>
+          Invoice date:
+          <span class="text-gray-500">{{ order.order_time }}</span>
           <br />
           Due date:<span class="text-gray-500">31/07/2023</span>
         </p>

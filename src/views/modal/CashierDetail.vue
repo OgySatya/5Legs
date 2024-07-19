@@ -109,6 +109,9 @@ function bayarOrder(id) {
             </tr>
           </tbody>
         </table>
+        <!-- <router-link :to="{ name: 'invoice', params: { id: data.id } }"
+          >Bayar</router-link
+        > -->
         <button
           @click="bayarOrder(data.id)"
           class="btn btn-outline btn-info flex mx-auto px-8 text-2xl"
