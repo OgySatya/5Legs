@@ -22,19 +22,12 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div
-    class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6"
-    id="invoice"
-  >
+  <div class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
     <div class="grid grid-cols-2 items-center">
       <div>
         <!--  Company logo  -->
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg"
-          alt="company-logo"
-          height="100"
-          width="100"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="company-logo"
+          height="100" width="100" />
       </div>
 
       <div class="text-right">
@@ -82,28 +75,16 @@ onMounted(() => {
         </colgroup>
         <thead class="border-b border-gray-300 text-gray-900">
           <tr>
-            <th
-              scope="col"
-              class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-            >
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
               Items
             </th>
-            <th
-              scope="col"
-              class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-            >
+            <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">
               Quantity
             </th>
-            <th
-              scope="col"
-              class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-            >
+            <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">
               Price
             </th>
-            <th
-              scope="col"
-              class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
-            >
+            <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
               Amount
             </th>
           </tr>
@@ -116,14 +97,10 @@ onMounted(() => {
                 Laravel based e-commerce platform.
               </div>
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               500.0
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               $100.00
             </td>
             <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
@@ -138,14 +115,10 @@ onMounted(() => {
                 Frontend design using Vue.js and Tailwind CSS.
               </div>
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               500.0
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               $100.00
             </td>
             <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
@@ -159,14 +132,10 @@ onMounted(() => {
                 Website SEO and Social Media marketing.
               </div>
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               50.0
             </td>
-            <td
-              class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"
-            >
+            <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
               $100.00
             </td>
             <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
@@ -176,17 +145,11 @@ onMounted(() => {
         </tbody>
         <tfoot>
           <tr>
-            <th
-              scope="row"
-              colspan="3"
-              class="hidden pl-4 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
-            >
+            <th scope="row" colspan="3"
+              class="hidden pl-4 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">
               Subtotal
             </th>
-            <th
-              scope="row"
-              class="pl-6 pr-3 pt-6 text-left text-sm font-normal text-gray-500 sm:hidden"
-            >
+            <th scope="row" class="pl-6 pr-3 pt-6 text-left text-sm font-normal text-gray-500 sm:hidden">
               Subtotal
             </th>
             <td class="pl-3 pr-6 pt-6 text-right text-sm text-gray-500 sm:pr-0">
@@ -194,17 +157,11 @@ onMounted(() => {
             </td>
           </tr>
           <tr>
-            <th
-              scope="row"
-              colspan="3"
-              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
-            >
+            <th scope="row" colspan="3"
+              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">
               Tax
             </th>
-            <th
-              scope="row"
-              class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden"
-            >
+            <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">
               Tax
             </th>
             <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">
@@ -212,17 +169,11 @@ onMounted(() => {
             </td>
           </tr>
           <tr>
-            <th
-              scope="row"
-              colspan="3"
-              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
-            >
+            <th scope="row" colspan="3"
+              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">
               Discount
             </th>
-            <th
-              scope="row"
-              class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden"
-            >
+            <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">
               Discount
             </th>
             <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">
@@ -230,22 +181,14 @@ onMounted(() => {
             </td>
           </tr>
           <tr>
-            <th
-              scope="row"
-              colspan="3"
-              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
-            >
+            <th scope="row" colspan="3"
+              class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">
               Total
             </th>
-            <th
-              scope="row"
-              class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
-            >
+            <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">
               Total
             </th>
-            <td
-              class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
-            >
+            <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
               $11,550.00
             </td>
           </tr>

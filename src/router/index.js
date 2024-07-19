@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import Login from "../views/auth/Login.vue";
 import useUserStore from "@/stores/user.js";
 
 const router = createRouter({
@@ -8,8 +8,8 @@ const router = createRouter({
   routes: [
     {
       path: "/login",
-      name: "home",
-      component: HomeView,
+      name: "login",
+      component: Login,
     },
     {
       path: "/auth/register",
@@ -51,7 +51,7 @@ const router = createRouter({
       path: "/invoice/:id",
       name: "invoice",
       component: () => import("../views/invoice.vue"),
-      meta: { requiresAuth: true },
+      
     },
     {
       path: "/dashboard",
@@ -66,22 +66,22 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!userStore.isLoggedIn) {
-      next("/login");
-    } else {
-      const routeRoles = to.meta.roles;
-      if (routeRoles.includes(userStore.users.role)) {
-        next();
-      } else {
-        next("/about");
-      }
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const userStore = useUserStore();
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (!userStore.isLoggedIn) {
+//       next("/login");
+//     } else {
+//       const routeRoles = to.meta.roles;
+//       if (routeRoles.includes(userStore.users.role)) {
+//         next();
+//       } else {
+//         next("/about");
+//       }
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

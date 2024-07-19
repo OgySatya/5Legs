@@ -6,9 +6,11 @@ const theme = useThemeStore();
 console.log(theme.theme);
 </script>
 
-<template data-theme="retro">
-  <Navbar />
-  <RouterView />
+<template>
+  <div :data-theme="theme.theme" class="h-screen">
+    <Navbar />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>
