@@ -17,6 +17,7 @@ onMounted(() => {
     })
     .then(function (response) {
       itemList.value = response.data;
+      console.log(response)
     })
     .catch(function (error) {
       console.log(error);
@@ -77,31 +78,22 @@ function editItem(id) {
     </Teleport>
   </div>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-5">
-    <div
-      v-for="(item, index) in itemList"
-      :key="index"
-      class="card card-compact bg-base-100 w-60 shadow-xl"
-    >
+    <div v-for="(item, index) in itemList" :key="index" class="card card-compact bg-base-100 w-60 shadow-xl">
       <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
-        />
+        <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" />
       </figure>
       <div class="card-body">
-        <h2 class="card-title">{{ item.name }}</h2>
+        <div class="flex justify-between">
+          <h2 class="card-title">{{ item.name }}</h2>
+          <h2 class="badge badge-lg badge-neutral capitalize p-3">{{ item.categories.name }}</h2>
+        </div>
+
         <p>Rp.{{ item.price }}</p>
         <div class="join mx-auto">
-          <button
-            @click="editItem(item.id)"
-            class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100"
-          >
+          <button @click="editItem(item.id)" class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100">
             Edit Menu
           </button>
-          <button
-            @click="removeItem(item.id)"
-            class="btn btn-error join-item btn-sm bg-opacity-70 text-base-100"
-          >
+          <button @click="removeItem(item.id)" class="btn btn-error join-item btn-sm bg-opacity-70 text-base-100">
             Delete Menu
           </button>
         </div>
@@ -111,10 +103,7 @@ function editItem(id) {
 
   <div class="relative">
     <div class="fixed bottom-0 right-0 p-10">
-      <button
-        @click="add()"
-        class="btn btn-secondary text-xl text-base-100 bg-opacity-70"
-      >
+      <button @click="add()" class="btn btn-secondary text-xl text-base-100 bg-opacity-70">
         Tambah Menu
       </button>
     </div>
