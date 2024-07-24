@@ -5,6 +5,7 @@ import useUserStore from "@/stores/user.js";
 
 const menuName = ref();
 const price = ref(0);
+const category = ref(-1);
 const file = ref();
 const userStore = useUserStore();
 const props = defineProps({});
@@ -23,6 +24,7 @@ function addNew() {
   const formData = new FormData();
   formData.append("name", menuName.value);
   formData.append("price", price.value);
+  formData.append("category_id", category.value);
   formData.append("image_file", file.value);
   axios
     .post("http://127.0.0.1:8000/api/item", formData, {
@@ -92,6 +94,17 @@ function addNew() {
                 step="1000"
                 required
               />
+            </div>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Category Makanan</span>
+              </label>
+              <select class="select select-bordered w-full" v-model="category">
+                <option disabled selected>Category</option>
+                <option :value="1">Makanan</option>
+                <option :value="2">Minuman</option>
+                <option :value="3">Dessert</option>
+              </select>
             </div>
             <label class="form-control w-full">
               <div class="label">
