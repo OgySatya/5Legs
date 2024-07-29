@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import useUserStore from "@/stores/user.js";
 import detailed from "./modal/OrderDetail.vue";
-
+import { service } from "@/utils/service";
 
 const userStore = useUserStore();
 const data = ref([]);
@@ -34,24 +34,27 @@ function detailOrder(id) {
       toggle();
     });
 }
-function reportByDate() {
-  axios
-    .post(
-      "http://127.0.0.1:8000/api/dashboard",
-      {
-        start: startDate.value,
-        end: endDate.value,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${userStore.users.token}`,
-        },
-      }
-    )
-    .then(function (response) {
-      data.value = response.data;
-      console.log(data.value);
-    });
+async function reportByDate() {
+  const response = await service().get("/dashboard", {
+    params: {
+      start: startDate.value,
+      end: endDate.value,
+    },
+  });
+  data.value = response.data;
+  // axios
+  //   .get(
+  //     "http://127.0.0.1:8000/api/dashboard",
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${userStore.users.token}`,
+  //       },
+  //     }
+  //   )
+  //   .then(function (response) {
+  //     data.value = response.data;
+  //     console.log(data.value);
+  //   });
 }
 
 const modal = ref(false);
@@ -72,24 +75,36 @@ function toggle() {
       <div class="flex gap-8 my-4">
         <div class="border-4 p-2 rounded-btn border-neutral">
           <p class="inline-flex mx-2 font-bold">Start Date :</p>
-          <input type="date" v-model="startDate" class=" bg-transparent" />
+          <input type="date" v-model="startDate" class="bg-transparent" />
         </div>
         <div class="border-4 p-2 rounded-btn border-neutral">
-
           <p class="inline-flex mx-2 font-bold">End Date :</p>
 
-          <input type="date" v-model="endDate" class=" bg-transparent" />
+          <input type="date" v-model="endDate" class="bg-transparent" />
         </div>
-        <button class="btn btn-outline border-4 border-neutral font-bold" @click="reportByDate">Gas</button>
+        <button
+          class="btn btn-outline border-4 border-neutral font-bold"
+          @click="reportByDate"
+        >
+          Gas
+        </button>
       </div>
 
       <div class="justify-between gap-4 flex">
         <div class="stat bg-primary text-primary-content rounded-box">
           <div class="stat-figure">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              class="inline-block h-8 w-8 stroke-current">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block h-8 w-8 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
             </svg>
           </div>
           <div class="stat-title text-primary-content">Total Order</div>
@@ -99,11 +114,18 @@ function toggle() {
 
         <div class="stat bg-secondary text-secondary-content rounded-box">
           <div class="stat-figure">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              class="inline-block h-8 w-8 stroke-current">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
-              </path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block h-8 w-8 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              ></path>
             </svg>
           </div>
           <div class="stat-title text-secondary-content">Cuan</div>
@@ -113,10 +135,18 @@ function toggle() {
 
         <div class="stat bg-accent text-accent-content rounded-box">
           <div class="stat-figure text-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              class="inline-block h-8 w-8 stroke-current">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block h-8 w-8 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+              ></path>
             </svg>
           </div>
           <div class="stat-title text-accent-content">Total User</div>
@@ -153,13 +183,16 @@ function toggle() {
                 <td>{{ list.cashier ? list.cashier.name : "-" }}</td>
                 <td>{{ list.total_price }}</td>
                 <td>
-                  <div :class="[
-                    list.status === 'Ready' ? 'bg-success' : 'bg-base-300',
-                    list.status === 'On Prosess'
-                      ? 'bg-warning'
-                      : 'bg-base-300',
-                    list.status === 'Lunas' ? 'bg-info' : 'bg-base-300',
-                  ]" class="text-center p-2 rounded-btn dark:text-slate-100">
+                  <div
+                    :class="[
+                      list.status === 'Ready' ? 'bg-success' : 'bg-base-300',
+                      list.status === 'On Prosess'
+                        ? 'bg-warning'
+                        : 'bg-base-300',
+                      list.status === 'Lunas' ? 'bg-info' : 'bg-base-300',
+                    ]"
+                    class="text-center p-2 rounded-btn dark:text-slate-100"
+                  >
                     <button @click="detailOrder(list.id)">
                       {{ list.status }}
                     </button>
