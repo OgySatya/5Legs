@@ -24,7 +24,7 @@ function login() {
         token: response.data.token,
       });
       if (response.data.role_id == 1) {
-        router.push("/dashboard");
+        router.push("/report");
       } else if (response.data.role_id == 2) {
         router.push("/costomer-order");
       } else if (response.data.role_id == 3) {
@@ -54,25 +54,13 @@ function login() {
               <label class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input
-                v-model="email"
-                type="email"
-                placeholder="email"
-                class="input input-bordered"
-                required
-              />
+              <input v-model="email" type="email" placeholder="email" class="input input-bordered" required />
             </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Password</span>
               </label>
-              <input
-                v-model="password"
-                type="password"
-                placeholder="password"
-                class="input input-bordered"
-                required
-              />
+              <input v-model="password" type="password" placeholder="password" class="input input-bordered" required />
             </div>
             <div class="form-control mt-6">
               <button type="submit" class="btn btn-primary">Login</button>

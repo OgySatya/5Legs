@@ -7,6 +7,7 @@ const orderStore = useOrderStore();
 
 const costomerName = ref("");
 const tabelNumber = ref(0);
+const imgUrl = "http://localhost:8000/storage/item/"
 
 function addNewOrder() {
   let name = costomerName.value;
@@ -41,24 +42,13 @@ function removeProduct(productId) {
               <label class="label">
                 <span class="label-text">Costomer Name</span>
               </label>
-              <input
-                v-model="costomerName"
-                type="text"
-                placeholder="name"
-                class="input input-bordered"
-                required
-              />
+              <input v-model="costomerName" type="text" placeholder="name" class="input input-bordered" required />
             </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Table Number</span>
               </label>
-              <input
-                v-model="tabelNumber"
-                type="number"
-                class="input input-bordered"
-                required
-              />
+              <input v-model="tabelNumber" type="number" class="input input-bordered" required />
             </div>
             <label class="label">
               <span class="label-text">Items</span>
@@ -75,11 +65,7 @@ function removeProduct(productId) {
               <tbody>
                 <tr v-for="list in products">
                   <td>
-                    <img
-                      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                      alt="Shoes"
-                      class="w-24"
-                    />
+                    <img :src="imgUrl + list.image" class=" rounded-full h-14" />
                   </td>
                   <td class="capitalize">
                     <p class="font-bold text-lg">
@@ -90,22 +76,10 @@ function removeProduct(productId) {
                   <td>
                     <div class="flex items-center">
                       <button @click="subtractQuantity(list)">
-                        <svg
-                          class="w-6 h-6 text-gray-800 dark:text-white"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16 16.881V7.119a1 1 0 0 0-1.636-.772l-5.927 4.881a1 1 0 0 0 0 1.544l5.927 4.88a1 1 0 0 0 1.636-.77Z"
-                          />
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 16.881V7.119a1 1 0 0 0-1.636-.772l-5.927 4.881a1 1 0 0 0 0 1.544l5.927 4.88a1 1 0 0 0 1.636-.77Z" />
                         </svg>
                       </button>
                       <div>
@@ -114,39 +88,20 @@ function removeProduct(productId) {
                         }}</span>
                       </div>
                       <button @click="addQuantity(list)" type="button">
-                        <svg
-                          class="w-6 h-6 text-gray-800 dark:text-white"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 16.881V7.119a1 1 0 0 1 1.636-.772l5.927 4.881a1 1 0 0 1 0 1.544l-5.927 4.88A1 1 0 0 1 8 16.882Z"
-                          />
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 16.881V7.119a1 1 0 0 1 1.636-.772l5.927 4.881a1 1 0 0 1 0 1.544l-5.927 4.88A1 1 0 0 1 8 16.882Z" />
                         </svg>
                       </button>
                     </div>
-                    <button
-                      @click="removeProduct(list.id)"
-                      type="button"
-                      class="font-medium text-error"
-                    >
+                    <button @click="removeProduct(list.id)" type="button" class="font-medium text-error">
                       Remove
                     </button>
                   </td>
-                  <td
-                    class="px-6 py-4 font-semibold text-gray-900 dark:text-white"
-                  >
+                  <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                     <p
-                      class="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600 dark:text-gray-100"
-                    >
+                      class="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600 dark:text-gray-100">
                       Rp.{{ list.quantity * list.price }}
                     </p>
                   </td>
@@ -166,10 +121,7 @@ function removeProduct(productId) {
               </div>
             </div>
             <div class="form-control mt-6">
-              <button
-                type="submit"
-                class="btn btn-accent text-base-100 text-xl"
-              >
+              <button type="submit" class="btn btn-accent text-base-100 text-xl">
                 Prosses Order
               </button>
             </div>

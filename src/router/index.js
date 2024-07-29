@@ -54,34 +54,35 @@ const router = createRouter({
       
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: () => import("../views/Dashboard.vue"),
-      meta: { requiresAuth: true, roles: [1] },
+      path: "/",
+      name: "about",
+      component: () => import("../views/About.vue"),
+
     },
     {
       path: "/report",
       name: "report",
       component: () => import("../views/Report.vue"),
+      meta: { requiresAuth: true, roles: [1] },
     },
   ],
 });
-// router.beforeEach((to, from, next) => {
-//   const userStore = useUserStore();
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!userStore.isLoggedIn) {
-//       next("/login");
-//     } else {
-//       const routeRoles = to.meta.roles;
-//       if (routeRoles.includes(userStore.users.role)) {
-//         next();
-//       } else {
-//         next("/about");
-//       }
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!userStore.isLoggedIn) {
+      next("/login");
+    } else {
+      const routeRoles = to.meta.roles;
+      if (routeRoles.includes(userStore.users.role)) {
+        next();
+      } else {
+        next("/");
+      }
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

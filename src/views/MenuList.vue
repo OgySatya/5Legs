@@ -8,6 +8,7 @@ import editMenu from "./modal/EditMenu.vue";
 const userStore = useUserStore();
 const itemList = ref([]);
 const menuEdit = ref({});
+const imgUrl = "http://localhost:8000/storage/item/"
 onMounted(() => {
   axios
     .get("http://127.0.0.1:8000/api/item", {
@@ -80,7 +81,7 @@ function editItem(id) {
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-5">
     <div v-for="(item, index) in itemList" :key="index" class="card card-compact bg-base-100 w-60 shadow-xl">
       <figure>
-        <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" />
+        <img :src="imgUrl + item.image" class="h-40" />
       </figure>
       <div class="card-body">
         <div class="flex justify-between">

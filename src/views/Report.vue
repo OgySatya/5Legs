@@ -68,17 +68,17 @@ function toggle() {
     </Teleport>
   </div>
   <main class="reltive w-full">
-    <div class="grid px-10 mt-5">
+    <div class="grid px-20 mt-5">
       <div class="flex gap-8 my-4">
         <div class="border-4 p-2 rounded-btn border-neutral">
           <p class="inline-flex mx-2 font-bold">Start Date :</p>
-          <input type="date" v-model="startDate" />
+          <input type="date" v-model="startDate" class=" bg-transparent" />
         </div>
         <div class="border-4 p-2 rounded-btn border-neutral">
 
           <p class="inline-flex mx-2 font-bold">End Date :</p>
 
-          <input type="date" v-model="endDate" />
+          <input type="date" v-model="endDate" class=" bg-transparent" />
         </div>
         <button class="btn btn-outline border-4 border-neutral font-bold" @click="reportByDate">Gas</button>
       </div>
@@ -121,7 +121,7 @@ function toggle() {
           </div>
           <div class="stat-title text-accent-content">Total User</div>
           <div v-if="data.users" class="stat-value">
-            {{ data.users.length }}
+            {{ data.users }}
           </div>
           <div class="stat-desc text-accent-content">↘︎ 90 (14%)</div>
         </div>
@@ -132,12 +132,13 @@ function toggle() {
           <table class="table table-zebra">
             <!-- head -->
             <thead class="bg-neutral text-neutral-content">
-              <tr>
+              <tr class="text-lg">
                 <th></th>
                 <th>Costomer</th>
+                <th>Ordering Time</th>
                 <th>Waiter</th>
                 <th>Chef</th>
-                <th>cashier</th>
+                <th>Cashier</th>
                 <th>Total Price</th>
                 <th>Status</th>
               </tr>
@@ -146,6 +147,7 @@ function toggle() {
               <tr v-for="list in data.allorder" class="capitalize">
                 <th>{{ list.id }}</th>
                 <td>{{ list.costomer_name }}</td>
+                <td>{{ list.order_time }}</td>
                 <td>{{ list.waiter ? list.waiter.name : "-" }}</td>
                 <td>{{ list.chef ? list.chef.name : "-" }}</td>
                 <td>{{ list.cashier ? list.cashier.name : "-" }}</td>
@@ -157,7 +159,7 @@ function toggle() {
                       ? 'bg-warning'
                       : 'bg-base-300',
                     list.status === 'Lunas' ? 'bg-info' : 'bg-base-300',
-                  ]" class="text-center p-2 rounded-btn">
+                  ]" class="text-center p-2 rounded-btn dark:text-slate-100">
                     <button @click="detailOrder(list.id)">
                       {{ list.status }}
                     </button>

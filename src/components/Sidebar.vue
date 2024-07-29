@@ -35,13 +35,13 @@ function show(id) {
       </Transition>
     </Teleport>
   </div>
-  <div class="w-64 h-screen bg-base-200">
+  <div class="w-64 bg-base-200 capitalize h-screen max-h-full">
     <div class="mb-10">
       <h3 class="mx-6 mb-2 pt-5 text-xs text-base-content uppercase tracking-widest">
         Main
       </h3>
 
-      <ul class="menu menu-xs bg-base-200 rounded-lg w-full max-w-xs">
+      <ul class="menu bg-base-200 rounded-lg w-full max-w-xs">
         <li>
           <RouterLink to="/report">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +52,8 @@ function show(id) {
             Dashborad
           </RouterLink>
         </li>
-        <li v-if="data">
-          <details open>
+        <li>
+          <details close>
             <summary>
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -63,9 +63,9 @@ function show(id) {
 
               Users
             </summary>
-            <ul>
+            <ul v-if="data" class=" capitalize">
               <li>
-                <details open>
+                <details close>
                   <summary>
                     <svg class="dark:fill-white" height="24px" width="24px" version="1.1" id="Layer_1"
                       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,7 +107,7 @@ function show(id) {
                 </details>
               </li>
               <li>
-                <details open>
+                <details close>
                   <summary>
                     <svg class="dark:fill-white" height="24px" width="24px" version="1.1" id="Layer_1"
                       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -146,7 +146,7 @@ function show(id) {
                 </details>
               </li>
               <li>
-                <details open>
+                <details close>
                   <summary>
                     <svg class="dark:fill-white" height="24px" width="24px" version="1.1" id="Layer_1"
                       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -189,7 +189,7 @@ function show(id) {
                 </details>
               </li>
               <li>
-                <details open>
+                <details close>
                   <summary>
                     <svg class="dark:fill-white" height="24px" width="24px" version="1.1" id="Layer_1"
                       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -272,7 +272,7 @@ function show(id) {
 
         <li>
           <RouterLink to="/menu">
-            <svg class="dark:fill-white dark:stroke-white" height="28px" width="28px" version="1.1" id="Capa_1"
+            <svg class="dark:fill-white dark:stroke-white" height="24px" width="24px" version="1.1" id="Capa_1"
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511 511"
               xml:space="preserve" stroke="#000000" stroke-width="0.00511">
               <path
@@ -299,48 +299,6 @@ function show(id) {
         </li>
       </ul>
     </div>
-    <div class="mb-10">
-      <h3 class="mx-6 mb-2 text-xs text-base-content uppercase tracking-widest">
-        Library
-      </h3>
 
-      <a href="/" class="flex items-center px-6 py-2.5 text-neutral hover:text-accent group">
-        <svg class="h-5 w-5 text-base-content mr-2 group-hover:text-orange-500" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-          </path>
-        </svg>
-        Favorites
-      </a>
-
-      <a href="/" class="flex items-center px-6 py-2.5 text-neutral hover:text-accent group">
-        <svg class="h-5 w-5 text-base-content mr-2 group-hover:text-orange-500" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        Watch later
-      </a>
-
-      <a href="/" class="flex items-center px-6 py-2.5 text-neutral hover:text-accent group">
-        <svg class="h-5 w-5 text-base-content mr-2 group-hover:text-orange-500" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-          </path>
-        </svg>
-        History
-      </a>
-
-      <a href="/" class="flex items-center px-6 py-2.5 text-neutral hover:text-accent group">
-        <svg class="h-5 w-5 text-base-content mr-2 group-hover:text-orange-500" fill="none" stroke="currentColor"
-          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-        </svg>
-        Scheduled
-      </a>
-    </div>
   </div>
 </template>
