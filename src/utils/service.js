@@ -8,7 +8,7 @@ export function service(data = {}) {
     baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api",
     headers: {
       Authorization: `Bearer ${userStore.users.token}`,
-      'Content-Type' : 'application/json',
+      'Content-Type' : 'multipart/form-data',
       'Accept' : 'application/json',
     },
   });

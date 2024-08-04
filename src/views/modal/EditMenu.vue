@@ -1,27 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import useUserStore from "@/stores/user.js";
+import { ref } from "vue";
+import { service } from "@/utils/service";
+import useMenuStore from "@/stores/menu";
 
-const menuName = ref();
-const price = ref();
+const menuStore = useMenuStore();
+const menuName = ref(menuStore.editMenu.name);
+const price = ref(menuStore.editMenu.price);
 const file = ref();
-const userStore = useUserStore();
-const props = defineProps({
-  data: Object,
-});
-function oldData() {
-  menuName.value = props.data.name;
-  price.value = props.data.price;
-}
-onMounted(() => {
-  setTimeout(() => {
-    oldData();
-    console.log(props.data.price);
-  }, 500);
-});
 const emit = defineEmits(["back"]);
-
 function onFileChange(event) {
   const files = event.target.files;
   if (files.length > 0) {
@@ -29,28 +15,15 @@ function onFileChange(event) {
   } else {
     file.value = null;
   }
-  console.log(file.value);
 }
-function editItem() {
+async function editItem() {
   const formData = new FormData();
   formData.append("name", menuName.value);
   formData.append("price", price.value);
   formData.append("image_file", file.value);
   formData.append("_method", "put");
-  axios
-    .post(`http://127.0.0.1:8000/api/item/${props.data.id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      console.log(response);
-      emit("back");
-      location.reload();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  await service().post(`/item/${menuStore.editMenu.id}`, formData);
+  location.reload()
 }
 </script>
 <template>

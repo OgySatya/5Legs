@@ -1,11 +1,9 @@
 import { defineStore } from "pinia";
-import { useLocalStorage } from "@vueuse/core";
-import useUserStore from "./user";
-import axios from "axios";
+import { service } from "@/utils/service";
 
 const useOrderStore = defineStore("order", {
   state: () => ({
-    products: useLocalStorage("order", []),
+    products: [],
   }),
   getters: {
     totalPrice: (state) =>
@@ -50,7 +48,6 @@ const useOrderStore = defineStore("order", {
       );
     },
     proses(name, table) {
-      const userStore = useUserStore();
       let itemsId = [];
       this.products.forEach((element) => {
         itemsId.push({ id: element.id, quantity: element.quantity });
@@ -60,18 +57,7 @@ const useOrderStore = defineStore("order", {
         table_number: table,
         items: itemsId,
       };
-      axios
-        .post("http://127.0.0.1:8000/api/order", order, {
-          headers: {
-            Authorization: `Bearer ${userStore.users.token}`,
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      service().post("/order", order);
       this.products = [];
     },
   },

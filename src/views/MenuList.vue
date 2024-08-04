@@ -3,19 +3,19 @@ import { ref, onMounted } from "vue";
 import AddMenu from "./modal/AddMenu.vue";
 import EditMenu from "./modal/EditMenu.vue";
 import { service } from "@/utils/service";
+import useMenuStore from "@/stores/menu";
 
-const itemList = ref([]);
+const menuStore = useMenuStore();
 const menuEdit = ref({});
 onMounted(async () => {
-  const response = await service().get("/item");
-  itemList.value = response.data;
+  await menuStore.getData()
 });
 const showModal = ref(false);
 function add() {
   showModal.value = !showModal.value;
 }
 async function removeItem(id) {
-  await service().delete(`/item/${id}`);
+  await menuStore.removeData(id);
   location.reload();
 }
 const editModal = ref(false);
@@ -23,8 +23,7 @@ function edit() {
   editModal.value = !editModal.value;
 }
 async function editItem(id) {
-  const response = await service().get(`/item/${id}/edit`);
-  menuEdit.value = response.data;
+  await menuStore.editData(id);
   edit();
 }
 </script>
@@ -44,11 +43,7 @@ async function editItem(id) {
     </Teleport>
   </div>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-5">
-    <div
-      v-for="(item, index) in itemList"
-      :key="index"
-      class="card card-compact bg-base-100 w-60 shadow-xl"
-    >
+    <div v-for="(item, index) in menuStore.allMenu" :key="index" class="card card-compact bg-base-100 w-60 shadow-xl">
       <figure>
         <img :src="item.image" class="h-40" />
       </figure>
@@ -62,16 +57,10 @@ async function editItem(id) {
 
         <p>Rp.{{ item.price }}</p>
         <div class="join mx-auto">
-          <button
-            @click="editItem(item.id)"
-            class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100"
-          >
+          <button @click="editItem(item.id)" class="btn btn-success join-item btn-sm bg-opacity-70 text-base-100">
             Edit Menu
           </button>
-          <button
-            @click="removeItem(item.id)"
-            class="btn btn-error join-item btn-sm bg-opacity-70 text-base-100"
-          >
+          <button @click="removeItem(item.id)" class="btn btn-error join-item btn-sm bg-opacity-70 text-base-100">
             Delete Menu
           </button>
         </div>
@@ -81,10 +70,7 @@ async function editItem(id) {
 
   <div class="relative">
     <div class="fixed bottom-0 right-0 p-10">
-      <button
-        @click="add()"
-        class="btn btn-secondary text-xl text-base-100 bg-opacity-70"
-      >
+      <button @click="add()" class="btn btn-secondary text-xl text-base-100 bg-opacity-70">
         Tambah Menu
       </button>
     </div>

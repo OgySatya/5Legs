@@ -1,39 +1,19 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
-import useUserStore from "@/stores/user.js";
+import useOrderListStore from "@/stores/orders";
 
-const userStore = useUserStore();
+const orderListStore = useOrderListStore();
 
-const props = defineProps({
-  data: Object,
-});
+const data = orderListStore.showOrder
 const emit = defineEmits(["back"]);
 const check = ref([]);
 const warning = ref(false);
 
-function readyOrder(id, chef) {
-  if (check.value.length == props.data.order_detail.length) {
-    axios
-      .post(
-        `http://127.0.0.1:8000/api/order/${id}/kitchen`,
-        {
-          id: chef,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${userStore.users.token}`,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response);
-        location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+async function readyOrder(id) {
+  if (check.value.length == data.order_detail.length) {
+    await orderListStore.ready(id)
     warning.value = false;
+    location.reload()
   } else {
     warning.value = true;
   }
@@ -41,40 +21,19 @@ function readyOrder(id, chef) {
 </script>
 <template>
   <div class="inset-0 fixed left-0 top-0 bg-base-300 bg-opacity-70">
-    <div
-      class="relative card bg-base-200 mx-auto w-max mt-28 bg-opacity-90 p-3"
-    >
+    <div class="relative card bg-base-200 mx-auto w-max mt-28 bg-opacity-90 p-3">
       <div class="flex justify-end">
-        <button
-          @click.prevent="$emit('back')"
-          class="bg-base-100 rounded-btn bg-opacity-80 p-1 hover:bg-base-300"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+        <button @click.prevent="$emit('back')" class="bg-base-100 rounded-btn bg-opacity-80 p-1 hover:bg-base-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      <h1
-        v-if="warning"
-        class="inset-x-0 top-0 absolute py-3 px-6 text-lg text-warning font-bold w-fit"
-      >
+      <h1 v-if="warning" class="inset-x-0 top-0 absolute py-3 px-6 text-lg text-warning font-bold w-fit">
         Check ulang Boss!!
       </h1>
       <div class="px-5 pb-5 mt-3">
-        <h1
-          class="text-center font-bold text-2xl border-2 border-neutral rounded-btn"
-        >
+        <h1 class="text-center font-bold text-2xl border-2 border-neutral rounded-btn">
           Order Number : {{ data.id }}
         </h1>
         <table class="table capitalize text-lg">
@@ -108,12 +67,7 @@ function readyOrder(id, chef) {
                 <span class="lowercase">x {{ menu.quantity }}</span>
               </td>
               <td>
-                <input
-                  type="checkbox"
-                  class="checkbox checkbox-warning checkbox-sm"
-                  :value="index"
-                  v-model="check"
-                />
+                <input type="checkbox" class="checkbox checkbox-warning checkbox-sm" :value="index" v-model="check" />
               </td>
             </tr>
 
@@ -121,23 +75,16 @@ function readyOrder(id, chef) {
               <td>Status</td>
               <td>
                 :
-                <span
-                  :class="[
-                    data.status === 'Ready' ? 'badge-success' : '',
-                    data.status === 'On Prosess' ? 'badge-warning' : '',
-                    data.status === 'Lunas' ? 'badge-info' : '',
-                  ]"
-                  class="badge badge-lg"
-                  >{{ data.status }}</span
-                >
+                <span :class="[
+                  data.status === 'Ready' ? 'badge-success' : '',
+                  data.status === 'On Prosess' ? 'badge-warning' : '',
+                  data.status === 'Lunas' ? 'badge-info' : '',
+                ]" class="badge badge-lg">{{ data.status }}</span>
               </td>
             </tr>
           </tbody>
         </table>
-        <button
-          @click="readyOrder(data.id, userStore.users.id)"
-          class="btn btn-outline btn-success flex mx-auto px-8 text-2xl"
-        >
+        <button @click="readyOrder(data.id)" class="btn btn-outline btn-success flex mx-auto px-8 text-2xl">
           Ready
         </button>
       </div>

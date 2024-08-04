@@ -10,7 +10,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <div :data-theme="theme.theme" class="">
+  <div :data-theme="theme.theme" class="h-full">
     <Navbar />
     <div class="flex w-screen">
       <aside v-if="userStore.users.role == 1">

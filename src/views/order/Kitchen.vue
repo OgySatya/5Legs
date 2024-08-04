@@ -1,42 +1,20 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import axios from "axios";
-import useUserStore from "@/stores/user.js";
 import detailed from "../modal/KitchenDetail.vue";
+import useOrderListStore from "@/stores/orders";
 
-const userStore = useUserStore();
+const orderListStore = useOrderListStore();
 
-const orderList = ref([]);
-const orderDetail = ref({});
 const filteredOrder = computed(() => {
-  return orderList.value.filter((kitchen) => kitchen.status === "On Prosess");
+  return orderListStore.allOrder.filter((kitchen) => kitchen.status === "On Prosess");
 });
 
-onMounted(() => {
-  axios
-    .get("http://127.0.0.1:8000/api/order", {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      orderList.value = response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+onMounted(async () => {
+  await orderListStore.getData()
 });
-function detailOrder(id) {
-  axios
-    .get(`http://127.0.0.1:8000/api/order/${id}`, {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      orderDetail.value = response.data;
-      toggle();
-    });
+async function detailOrder(id) {
+  await orderListStore.showData(id)
+  toggle()
 }
 const modal = ref(false);
 function toggle() {
@@ -47,16 +25,12 @@ function toggle() {
   <div>
     <Teleport to="body">
       <Transition>
-        <detailed v-if="modal" :data="orderDetail" @back="() => toggle()" />
+        <detailed v-if="modal" @back="() => toggle()" />
       </Transition>
     </Teleport>
   </div>
   <section class="grid grid-cols-4 gap-5 m-10">
-    <div
-      v-for="(order, index) in filteredOrder"
-      :key="index"
-      class="card bg-base-200 border-4 border-primary w-96 p-5"
-    >
+    <div v-for="(order, index) in filteredOrder" :key="index" class="card bg-base-200 border-4 border-primary w-96 p-5">
       <p class="text-center font-bold text-2xl">
         Order Number : {{ order.id }}
       </p>
@@ -70,15 +44,11 @@ function toggle() {
         <p>Total Price: {{ order.total_price }}</p>
         <p>
           Status:
-          <span
-            :class="[
-              order.status === 'Ready' ? 'badge-success' : '',
-              order.status === 'On Prosess' ? 'badge-warning' : '',
-              order.status === 'Lunas' ? 'badge-info' : '',
-            ]"
-            class="badge"
-            >{{ order.status }}</span
-          >
+          <span :class="[
+            order.status === 'Ready' ? 'badge-success' : '',
+            order.status === 'On Prosess' ? 'badge-warning' : '',
+            order.status === 'Lunas' ? 'badge-info' : '',
+          ]" class="badge">{{ order.status }}</span>
         </p>
         <div class="card-actions justify-end">
           <button @click="detailOrder(order.id)" class="btn btn-primary">

@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
-import useUserStore from "@/stores/user.js";
+import { service } from "@/utils/service";
 
-const userStore = useUserStore();
 const name = ref("");
 const email = ref("");
 const role = ref("");
@@ -12,34 +10,19 @@ const confirmPassword = ref("");
 const warning = ref(false);
 const success = ref(false);
 
-function registerUser() {
+async function registerUser() {
   if (password.value === confirmPassword.value) {
-    axios
-      .post(
-        "http://127.0.0.1:8000/api/user",
-        {
-          name: name.value,
-          email: email.value,
-          role_id: role.value,
-          password: password.value,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${userStore.users.token}`
-          }
-        },
-      )
-      .then(function (response) {
-        console.log(response);
-        success.value = true;
-        warning.value = false;
-      })
-      .catch(function (error) {
-        console.log(error);
-        warning.value = true;
-        success.value = false;
-      });
-
+    const response = await service().post("/user", {
+      name: name.value,
+      email: email.value,
+      role_id: role.value,
+      password: password.value,
+    });
+    console.log(response.data)
+    warning.value = false
+    success.value = true
+  } else {
+    warning.value = true
   }
 }
 </script>
@@ -51,10 +34,10 @@ function registerUser() {
           <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl">
             Create New User
           </h1>
-          <p v-if="warning" class="text-red-500 text-center text-sm font-semibold animate-bounce">
-            Error cuk!!!
+          <p v-if="warning" class="text-error text-center text-lg font-semibold animate-bounce">
+            Error password tak same!!!
           </p>
-          <p v-else-if="success" class="text-lime-500 text-center text-sm font-semibold animate-bounce">
+          <p v-else-if="success" class="text-success text-center text-lg font-semibold animate-bounce">
             Mantap Boss!!!
           </p>
           <form class="space-y-4 md:space-y-6" @submit.prevent="registerUser()">

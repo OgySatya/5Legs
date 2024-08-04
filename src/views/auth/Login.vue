@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import { service } from "@/utils/service";
 import useUserStore from "@/stores/user.js";
 import { useRouter } from "vue-router";
 
@@ -9,30 +9,29 @@ const router = useRouter();
 const email = ref();
 const password = ref();
 
-function login() {
-  axios
-    .post("http://127.0.0.1:8000/api/auth/login", {
+async function login() {
+  const response = await service().post("/auth/login",
+    {
       email: email.value,
       password: password.value,
-    })
-    .then(function (response) {
-      userStore.addUser({
-        id: response.data.id,
-        name: response.data.name,
-        email: response.data.email,
-        role: response.data.role_id,
-        token: response.data.token,
-      });
-      if (response.data.role_id == 1) {
-        router.push("/report");
-      } else if (response.data.role_id == 2) {
-        router.push("/costomer-order");
-      } else if (response.data.role_id == 3) {
-        router.push("/kitchen");
-      } else if (response.data.role_id == 4) {
-        router.push("/cashier");
-      }
-    });
+    }
+  );
+  userStore.addUser({
+    id: response.data.id,
+    name: response.data.name,
+    email: response.data.email,
+    role: response.data.role_id,
+    token: response.data.token,
+  });
+  if (response.data.role_id == 1) {
+    router.push("/report");
+  } else if (response.data.role_id == 2) {
+    router.push("/costomer-order");
+  } else if (response.data.role_id == 3) {
+    router.push("/kitchen");
+  } else if (response.data.role_id == 4) {
+    router.push("/cashier");
+  }
 }
 </script>
 

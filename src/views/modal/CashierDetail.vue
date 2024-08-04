@@ -1,28 +1,13 @@
 <script setup>
-import axios from "axios";
-import useUserStore from "@/stores/user.js";
+import useOrderListStore from "@/stores/orders";
 
-const userStore = useUserStore();
+const orderListStore = useOrderListStore();
 
-const props = defineProps({
-  data: Object,
-});
 const emit = defineEmits(["back"]);
-
-function bayarOrder(id) {
-  axios
-    .get(`http://127.0.0.1:8000/api/order/${id}/payment`, {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      console.log(response);
-      location.reload();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+const data = orderListStore.showOrder
+async function bayarOrder(id) {
+  await orderListStore.bayar(id)
+  location.reload();
 }
 </script>
 <template>
