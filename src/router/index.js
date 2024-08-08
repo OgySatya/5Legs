@@ -48,9 +48,9 @@ const router = createRouter({
       meta: { requiresAuth: true, roles: [4] },
     },
     {
-      path: "/invoice/:id",
-      name: "invoice",
-      component: () => import("../views/invoice.vue"),
+      path: "/users-list",
+      name: "usersList",
+      component: () => import("../views/UsersList.vue"),
       
     },
     {

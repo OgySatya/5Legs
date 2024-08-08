@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import { service } from "@/utils/service";
+import useUserStore from "@/stores/user.js";
+
+const userStore = useUserStore();
 
 const name = ref("");
 const email = ref("");
@@ -12,13 +14,13 @@ const success = ref(false);
 
 async function registerUser() {
   if (password.value === confirmPassword.value) {
-    const response = await service().post("/user", {
+    const param = {
       name: name.value,
       email: email.value,
       role_id: role.value,
       password: password.value,
-    });
-    console.log(response.data)
+    }
+    await userStore.addData(param)
     warning.value = false
     success.value = true
   } else {

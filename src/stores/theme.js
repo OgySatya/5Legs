@@ -7,7 +7,10 @@ const useThemeStore = defineStore("theme", {
   }),
   getters: {},
   actions: {
-    change(name) {
+    changeQ(name) {
+      this.theme = name;
+    },
+    changeDark(name) {
       this.theme = name;
     },
   },

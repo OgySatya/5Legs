@@ -1,41 +1,35 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
 import useUserStore from "@/stores/user.js";
 
 const userStore = useUserStore();
-const props = defineProps({
-  data: Number,
-});
-onMounted(() => {
-  setTimeout(() => {
-    getData(props.data);
-  }, 500);
+onMounted(async () => {
+  userData.value = userStore.showUser
+  console.log(userData.value)
+  name.value = userData.value.name
+  email.value = userData.value.email
+  role.value = userData.value.role_id
 });
 const emit = defineEmits(["back"]);
 const userData = ref('')
-function getData(id) {
-  axios
-    .get(`http://127.0.0.1:8000/api/user/${id}`, {
-      headers: {
-        Authorization: `Bearer ${userStore.users.token}`,
-      },
-    })
-    .then(function (response) {
-      userData.value = response.data;
-      email.value = response.data.email
-      role.value = response.data.roles.name
-      console.log(response.data)
-    })
-
-}
+const name = ref()
 const email = ref()
 const role = ref()
 
+async function editUser(id) {
+  const param = {
+    name: name.value,
+    email: email.value,
+    role_id: role.value,
+    _method: "put",
+  }
+  await userStore.updateData(id, param)
+  location.reload()
+}
 </script>
 <template>
   <div class="inset-0 fixed left-0 top-0 bg-base-300 bg-opacity-70">
-    <div class=" w-2/5 mx-auto mt-40 bg-neutral rounded-2xl bg-opacity-50">
+    <div class=" w-2/5 mx-auto mt-10 bg-neutral rounded-2xl bg-opacity-50">
 
 
       <div class="p-5">
@@ -51,27 +45,37 @@ const role = ref()
           </div>
           <div class="avatar w-full">
             <div class="mask mask-squircle w-24 mx-auto">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <img src="https://i.pravatar.cc/300" />
             </div>
           </div>
-          <h1 class="flex justify-center text-accent font-bold text-4xl">{{ userData.name }}</h1>
-          <form class="card-body" @submit.prevent="editItem()">
+          <h1 class="flex justify-center text-accent font-bold text-4xl uppercase">{{ userData.name }}</h1>
+          <form class="card-body" @submit.prevent="editUser(userData.id)">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">User Name</span>
+              </label>
+              <input v-model="name" class="input input-bordered" required />
+            </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input v-model="email" type="text" class="input input-bordered" required />
+              <input v-model="email" class="input input-bordered" required />
             </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Role</span>
               </label>
-              <input v-model="role" type="text" class="input input-bordered" step="1000" required />
+              <select id="role" v-model="role"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Choose a role</option>
+                <option :value="1">Manager</option>
+                <option :value="2">Waiter</option>
+                <option :value="3">Chef</option>
+                <option :value="4">Cashier</option>
+              </select>
             </div>
-            <div class="flex justify-between mt-6">
-              <button class="btn btn-error text-base-100 text-xl">
-                Delete User
-              </button>
+            <div class="mx-auto mt-6">
               <button type="submit" class="btn btn-accent text-base-100 text-xl">
                 Update User
               </button>

@@ -8,13 +8,18 @@ import useThemeStore from "@/stores/theme.js";
 const theme = useThemeStore();
 const newTheme = ref("");
 const themeDark = ref("");
-function ThemeQ() {
+function themeQ() {
   if (newTheme.value) {
-    theme.change("retro");
-  } else if (themeDark.value) {
-    theme.change("dark");
+    theme.changeQ("retro");
   } else {
-    theme.change("");
+    theme.changeQ("");
+  }
+}
+function themeZ() {
+  if (themeDark.value) {
+    theme.changeDark("dark");
+  } else {
+    theme.changeDark("");
   }
 }
 
@@ -22,14 +27,14 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const userName = computed(() => userStore.users.name);
-function logout() {
-  axios.get("http://127.0.0.1:8000/api/auth/logout", {
-    headers: {
-      Authorization: `Bearer ${userStore.users.token}`,
-    },
-  });
+async function logout() {
+  // axios.get("http://127.0.0.1:8000/api/auth/logout", {
+  //   headers: {
+  //     Authorization: `Bearer ${userStore.users.token}`,
+  //   },
+  // });
 
-  userStore.logout();
+  await userStore.logout();
   router.push("/login");
 }
 </script>
@@ -77,7 +82,7 @@ function logout() {
           </ul>
         </div>
         <label class="swap">
-          <input type="checkbox" value="retro" v-model="newTheme" @change="ThemeQ()" />
+          <input type="checkbox" value="retro" v-model="newTheme" @change="themeQ()" />
           <div class="swap-on text-4xl font-bold">Kaki5</div>
           <div class="swap-off text-4xl font-bold">5Legs</div>
         </label>
@@ -120,7 +125,7 @@ function logout() {
       <div class="navbar-end space-x-2">
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" v-model="themeDark" @change="ThemeQ()" />
+          <input type="checkbox" v-model="themeDark" @change="themeZ()" />
 
           <!-- sun icon -->
           <svg class="swap-on h-8 w-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

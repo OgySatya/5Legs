@@ -5,12 +5,20 @@ import { service } from "@/utils/service";
 import useOrderListStore from "@/stores/orders";
 
 const orderListStore = useOrderListStore();
+const today = ref(new Date().toISOString().split('T')[0]);
 const data = ref([]);
 const orderDetail = ref({});
-const startDate = ref();
-const endDate = ref();
+const startDate = ref(today.value);
+const endDate = ref(today.value);
 onMounted(async () => {
-  const response = await service().get("/dashboard")
+  const response = await service().get("/dashboard"
+    // , {
+    //   params: {
+    //     start: today.value,
+    //     end: today.value,
+    //   },
+    // }
+  );
   data.value = response.data;
 });
 async function detailOrder(id) {

@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import AddMenu from "./modal/AddMenu.vue";
 import EditMenu from "./modal/EditMenu.vue";
-import { service } from "@/utils/service";
 import useMenuStore from "@/stores/menu";
 
 const menuStore = useMenuStore();
@@ -70,7 +69,7 @@ async function editItem(id) {
 
   <div class="relative">
     <div class="fixed bottom-0 right-0 p-10">
-      <button @click="add()" class="btn btn-secondary text-xl text-base-100 bg-opacity-70">
+      <button @click="add()" class="btn btn-secondary text-xl text-base-100 bg-opacity-90">
         Tambah Menu
       </button>
     </div>

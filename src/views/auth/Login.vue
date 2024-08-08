@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import { service } from "@/utils/service";
 import useUserStore from "@/stores/user.js";
 import { useRouter } from "vue-router";
 
@@ -10,26 +9,19 @@ const email = ref();
 const password = ref();
 
 async function login() {
-  const response = await service().post("/auth/login",
-    {
-      email: email.value,
-      password: password.value,
-    }
-  );
-  userStore.addUser({
-    id: response.data.id,
-    name: response.data.name,
-    email: response.data.email,
-    role: response.data.role_id,
-    token: response.data.token,
-  });
-  if (response.data.role_id == 1) {
+  const param =
+  {
+    email: email.value,
+    password: password.value,
+  }
+  await userStore.login(param)
+  if (userStore.users.role == 1) {
     router.push("/report");
-  } else if (response.data.role_id == 2) {
+  } else if (userStore.users.role == 2) {
     router.push("/costomer-order");
-  } else if (response.data.role_id == 3) {
+  } else if (userStore.users.role == 3) {
     router.push("/kitchen");
-  } else if (response.data.role_id == 4) {
+  } else if (userStore.users.role == 4) {
     router.push("/cashier");
   }
 }
